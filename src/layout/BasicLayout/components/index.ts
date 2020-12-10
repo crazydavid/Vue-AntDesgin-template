@@ -1,0 +1,6 @@
+export { default as AppMain } from './AppMain.vue'
+export { default as Sidebar } from './SideBar/index.vue'
+export { default as Header } from './Header.vue'
+export { default as Breadcrumb } from './Breadcrumb.vue'
+// export { default as Settings } from './Settings'
+// export { default as TagsView } from './TagsView/index.vue'

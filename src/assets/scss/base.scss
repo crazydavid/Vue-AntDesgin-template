@@ -1,0 +1,66 @@
+html,
+body,
+#app, #root {
+  height: 100%;
+}
+
+.colorWeak {
+  filter: invert(80%);
+}
+
+.ant-layout.layout-basic {
+  height: 100vh;
+  min-height: 100vh;
+}
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ant-col{
+	width: 100%;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+.ant-pro-sider {
+	&.ant-layout-sider.ant-pro-sider-fixed {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 100;
+		height: 100%;
+		overflow: hidden;
+		overflow-x: hidden;
+		box-shadow: 2px 0 8px 0 rgba(29, 35, 41, 0.05);
+	}
+	.ant-layout-sider-children {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		::-webkit-scrollbar {
+			width: 6px;
+			height: 6px;
+		}
+		::-webkit-scrollbar-thumb {
+			background: hsla(0, 0%, 100%, 0.2);
+			border-radius: 3px;
+			-webkit-box-shadow: inset 0 0 5px hsla(0, 0%, 100%, 0.05);
+		}
+		::-webkit-scrollbar-track {
+			background: hsla(0, 0%, 100%, 0.15);
+			border-radius: 3px;
+			-webkit-box-shadow: inset 0 0 5px rgba(37, 37, 37, 0.05);
+		}
+	}
+}
+
