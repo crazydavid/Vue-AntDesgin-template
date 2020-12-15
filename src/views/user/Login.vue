@@ -1,13 +1,7 @@
 <template>
   <div class="main">
-    <ant-form
-      id="formLogin"
-      ref="formLogin"
-      class="user-layout-login"
-      :form="userForm"
-      :rules="state.rules"
-      @submit="handleSubmit"
-    >
+    <ant-form class="user-layout-login">
+      <ant-alert v-if="loginErrorShow" type="error" show-icon style="margin-bottom: 24px;" message="账户或密码错误（admin/123456 )" />
       <ant-form-item v-bind="validateInfos.username">
         <ant-input v-model:value="userForm.username" size="large" type="text" placeholder="账户: admin">
           <template #prefix><user-outlined :style="{ color: 'rgba(0,0,0,.25)' }" type="user" /></template>
@@ -18,7 +12,6 @@
           <template #prefix><LockOutlined :style="{ color: 'rgba(0,0,0,.25)' }" type="lock" /></template>
         </ant-input-password>
       </ant-form-item>
-
       <ant-form-item>
         <ant-checkbox v-model:checked="state.rememberMe">自动登录</ant-checkbox>
         <router-link
@@ -29,7 +22,6 @@
           忘记密码
         </router-link>
       </ant-form-item>
-
       <ant-form-item style="margin-top:24px">
         <ant-button
           size="large"
@@ -38,6 +30,7 @@
           class="login-button"
           :loading="state.formState.loginBtn"
           :disabled="state.formState.loginBtn"
+          @click="handleSubmit"
         >
           确定
         </ant-button>
@@ -46,10 +39,12 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, toRaw, ref } from 'vue'
-import { Form, Input, Button, Checkbox } from 'ant-design-vue'
+import { defineComponent, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { Form, Input, Button, Checkbox, Alert } from 'ant-design-vue'
 import { useForm } from '@ant-design-vue/use'
-import { UserOutlined, LockOutlined, MobileOutlined } from '@ant-design/icons-vue'
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
+import { login } from '@/api/user'
 
 interface userLoginInfo {
     username?:string | number,
@@ -60,18 +55,20 @@ export default defineComponent({
   components: {
     UserOutlined,
     LockOutlined,
-    MobileOutlined,
     'ant-form': Form,
     'ant-form-item': Form.Item,
     'ant-input': Input,
     'ant-input-password': Input.Password,
     'ant-button': Button,
-    'ant-checkbox': Checkbox
+    'ant-checkbox': Checkbox,
+    'ant-alert': Alert
   },
   setup() {
+    const router = useRouter()
     /**
-       * 用户登录信息
-       */
+     * 用户登录信息
+     */
+    const loginErrorShow = ref(false)
     const userForm = reactive<userLoginInfo>({
       username: '',
       password: ''
@@ -96,23 +93,22 @@ export default defineComponent({
       }
     })
     /**
-     * tab切换
-     */
-    const { resetFields, validate, validateInfos } = useForm(userForm, formRules)
-    const handleTabClick = (key:string) => {
-      customActiveKey.value = key
-      resetFields()
-    }
-    const getCaptcha = () => {}
-    /**
      * 提交表单
      */
+    const { resetFields, validate, validateInfos } = useForm(userForm, formRules)
     const handleSubmit = (e:any) => {
       e.preventDefault()
-      validate().then(() => {
-        console.log(toRaw(userForm))
+      state.formState.loginBtn = true
+      validate().then(async() => {
+        const { code } = await login(userForm)
+        setTimeout(() => {
+          state.formState.loginBtn = false
+          if (code === '0000') router.push({ path: '/' })
+          else loginErrorShow.value = true
+        }, 600)
       }).catch(err => {
         console.log('error', err)
+        state.formState.loginBtn = false
       })
     }
 
@@ -122,9 +118,8 @@ export default defineComponent({
       userForm,
       validateInfos,
       resetFields,
-      getCaptcha,
-      handleTabClick,
-      handleSubmit
+      handleSubmit,
+      loginErrorShow
     }
   }
 })
