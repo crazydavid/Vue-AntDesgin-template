@@ -1,7 +1,7 @@
 <template>
   <Layout id="layout-main" style="min-height: 100vh">
     <Sidebar />
-    <Layout :style="{ marginLeft: '200px' }">
+    <Layout>
       <Header />
       <Breadcrumb />
       <AppMain />

@@ -5,11 +5,16 @@
         <component :is="Component" /></transition>
     </router-view>
   </layout-content>
-  <layout-footer>footer</layout-footer>
+  <!-- eslint-disable-next-line -->
+  <layout-footer class="footer">
+    <div class="copyright">
+      Copyright &copy; 2020 vueAntCli
+    </div>
+  </layout-footer>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { Layout } from 'ant-design-vue'
 export default defineComponent({
   components: {
@@ -27,5 +32,12 @@ export default defineComponent({
   min-height: 280px;
   position: relative;
   overflow: hidden;
+}
+.footer {
+  text-align: center;
+  .copyright {
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 14px;
+  }
 }
 </style>

@@ -3,23 +3,26 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import BasicLayout from '@/layout/BasicLayout/index.vue'
 import UserLayout from '@/layout/UserLayout.vue'
 
-const routes: Array<RouteRecordRaw> = [
+export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     component: BasicLayout,
     redirect: '/dashboard',
+    name: 'Dashboard',
+    meta: { title: 'Dashboard' },
     children: [
       {
         path: 'dashboard',
         component: () => import('@/views/dashboard/index.vue'),
-        name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        name: 'watch',
+        meta: { title: '监控室', icon: 'dashboard', affix: true }
       }
     ]
   }, {
     path: '/user',
     component: UserLayout,
     redirect: '/user/login',
+    meta: { hidden: true, title: '用户' },
     children: [
       {
         path: 'login',
@@ -37,6 +40,21 @@ const routes: Array<RouteRecordRaw> = [
       //   name: 'registerResult',
       //   component: () => import('@/views/user/RegisterResult')
       // }
+    ]
+  },
+  {
+    path: '/table',
+    component: BasicLayout,
+    redirect: '/table/basic-list',
+    name: 'Table',
+    meta: { title: 'Table', icon: 'table' },
+    children: [
+      {
+        path: 'basic-list',
+        component: () => import('@/views/table/basic-list/index.vue'),
+        name: 'basicList',
+        meta: { title: '标准列表' }
+      }
     ]
   }
 ]

@@ -2,7 +2,7 @@
   <div class="sidebar-logo-container">
     <router-link class="sidebar-logo-link" to="/">
       <img class="sidebar-logo" src="@/assets/logo.svg" alt>
-      <h1 class="sidebar-title">{{ title }}</h1>
+      <h1 v-if="!collapsed" style="white-space: nowrap;" class="sidebar-title">{{ title }}</h1>
     </router-link>
   </div>
 </template>
