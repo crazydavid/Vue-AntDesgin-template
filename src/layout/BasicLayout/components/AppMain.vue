@@ -26,9 +26,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .app-main {
-  margin: 24px 16px;
-  padding: 24px;
-  background: #fff;
+  margin:16px 24px;
+  // padding: 24px;
+  // background: #fff;
   min-height: 280px;
   position: relative;
   overflow: hidden;
